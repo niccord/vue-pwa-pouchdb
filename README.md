@@ -2,6 +2,27 @@
 
 > Figuring out how vue-pwa can work with pouchdb
 
+## Use `vue-cli + pwa` as a template combined with `pouchdb` to build a PWA with complete offline support? Do they work together? And how??
+
+## Let's find out!!
+
+    $> vue-cli pwa
+    $> npm install pouchdb
+
+    Set a global database name, if you want.
+
+    In the `created` hook of the list component, populate the list via `db.allDocs`, manupulate the objects directly via vue, and call `allDocs` if you want to refresh data from db.
+
+    Remember to update `rev` when update a document.
+
+    The state management is simple in this case, so I don't need redux or vuex or another state manager: I simply pass the function(s) to the child component.
+
+Nothing else!
+
+Is that possible??
+
+![magic gif](./magic.gif)
+
 ## Build Setup
 
 ``` bash

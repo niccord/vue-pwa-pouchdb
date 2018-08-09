@@ -1,6 +1,6 @@
 <template>
   <div>
-    <best-practice v-for="(i, index) in list" :bp="i" :key="index">
+    <best-practice v-for="bp in alldocs" :bp="bp" :refresh="spliceBp" :key="bp._id">
     </best-practice>
     <br>
     <div>
@@ -12,27 +12,46 @@
 </template>
 <script>
 import bestPractice from "./BestPractice.vue";
+const configuration = require("../../config");
+
+const PouchDB = require("pouchdb").default;
+var db = new PouchDB(configuration.build.dbName);
 
 export default {
+  created() {
+    this.getList();
+  },
   data() {
     return {
       newBpTitle: "",
       newBpNote: "",
-      list: [
-        { title: "Teeth", note: "Remember to wash them every day!" },
-        { title: "Be nice", note: 'Always say "Please" and "Thank you"' }
-      ]
+      alldocs: []
     };
   },
+  computed: {},
   methods: {
     add() {
       if (this.newBpTitle !== "" && this.newBpNote !== "") {
-        this.list.push({ title: this.newBpTitle, note: this.newBpNote });
-        this.newBpTitle = "";
-        this.newBpNote = "";
+        const note = { title: this.newBpTitle, note: this.newBpNote };
+        db.post(note).then(() => {
+          return this.getList();
+        }).then(() => {
+          this.newBpTitle = "";
+          this.newBpNote = "";
+        });
       } else {
         alert("Titolo e note sono obbligatori");
       }
+    },
+    spliceBp(doc) {
+      this.alldocs.splice(this.alldocs.indexOf(doc), 1);
+    },
+    async getList() {
+      const ad = await db.allDocs({
+        include_docs: true,
+        attachments: true
+      });
+      this.alldocs = ad.rows.map(row => row.doc);
     }
   },
   components: {
