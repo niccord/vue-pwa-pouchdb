@@ -1,17 +1,25 @@
 <template>
   <div>
-    <best-practice v-for="bp in alldocs" :bp="bp" :refresh="spliceBp" :key="bp._id">
-    </best-practice>
+    <div class="elementList">
+      <list-element v-for="element in alldocs" :element="element" :refresh="spliceElements" :key="element._id">
+      </list-element>
+    </div>
     <br>
     <div>
-      <input type="text" name="newBpTitle" id="newBpTitle" v-model="newBpTitle">
-      <input type="text" name="newBpNote" id="newBpNote" v-model="newBpNote">
+      <div>
+        <label for="newElementTitle">Title:</label>
+        <input type="text" name="newElementTitle" id="newElementTitle" v-model="newElementTitle" placeholder="Insert title">
+      </div>
+      <div>
+        <label for="newElementNote">Note:</label>
+        <input type="text" name="newElementNote" id="newElementNote" v-model="newElementNote" placeholder="Insert note">
+      </div>
       <button name="add" @click="add">Add</button>
     </div>
   </div>
 </template>
 <script>
-import bestPractice from "./BestPractice.vue";
+import listElement from "./ListElement.vue";
 const configuration = require("../../config");
 
 const PouchDB = require("pouchdb").default;
@@ -23,27 +31,30 @@ export default {
   },
   data() {
     return {
-      newBpTitle: "",
-      newBpNote: "",
+      newElementTitle: "",
+      newElementNote: "",
       alldocs: []
     };
   },
   computed: {},
   methods: {
     add() {
-      if (this.newBpTitle !== "" && this.newBpNote !== "") {
-        const note = { title: this.newBpTitle, note: this.newBpNote };
-        db.post(note).then(() => {
-          return this.getList();
-        }).then(() => {
-          this.newBpTitle = "";
-          this.newBpNote = "";
-        });
+      if (this.newElementTitle !== "" && this.newElementNote !== "") {
+        const note = { title: this.newElementTitle, note: this.newElementNote };
+        db
+          .post(note)
+          .then(() => {
+            return this.getList();
+          })
+          .then(() => {
+            this.newElementTitle = "";
+            this.newElementNote = "";
+          });
       } else {
-        alert("Titolo e note sono obbligatori");
+        alert("Title and details are both mandatory");
       }
     },
-    spliceBp(doc) {
+    spliceElements(doc) {
       this.alldocs.splice(this.alldocs.indexOf(doc), 1);
     },
     async getList() {
@@ -55,9 +66,14 @@ export default {
     }
   },
   components: {
-    bestPractice
+    listElement
   }
 };
 </script>
 <style>
+.elementList {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
 </style>
