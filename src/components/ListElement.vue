@@ -11,10 +11,7 @@
     </div>
 </template>
 <script>
-const configuration = require("../../config");
-
-const PouchDB = require("pouchdb").default;
-var db = new PouchDB(configuration.build.dbName);
+import db from "../assets/PouchDBConnection";
 
 export default {
   data() {
