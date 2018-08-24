@@ -16,11 +16,14 @@
       </div>
       <button name="add" @click="add">Add</button>
     </div>
+    <button name="add" @click="setRemoteDBName">Set Remote DB Name</button>
   </div>
 </template>
 <script>
 import db from "../assets/PouchDBConnection";
 import listElement from "./ListElement.vue";
+
+const configuration = require("../../config");
 
 export default {
   created() {
@@ -60,6 +63,11 @@ export default {
         attachments: true
       });
       this.alldocs = ad.rows.map(row => row.doc);
+    },
+    setRemoteDBName() {
+      db.setRemoteDBName(configuration.build.remoteDBName).then(() => {
+        return this.getList();
+      });
     }
   },
   components: {

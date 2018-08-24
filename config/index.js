@@ -22,7 +22,7 @@ module.exports = {
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report,
-    dbName: 'vue-pwa-pouchdb',
+    dbName: 'vue-pwa-pouchdb-test-01',
     remoteDBName: 'https://couchdb-1972bd.smileupps.com/vue-pwa-pouchdb/',
   },
   dev: {
