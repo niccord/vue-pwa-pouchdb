@@ -11,11 +11,11 @@
 
     Set a global database name, if you want.
 
-    In the `created` hook of the list component, populate the list via `db.allDocs`, manupulate the objects directly via vue, and call `allDocs` if you want to refresh data from db.
+    In the `created` hook of the list component, populate the list via `db.allDocs`, manipulate the objects directly via vue, and call `allDocs` if you want to refresh data from db.
 
     Remember to update `rev` when update a document.
 
-    The state management is simple in this case, so I don't need redux or vuex or another state manager: I simply pass the function(s) to the child component.
+    The state management is simple in this case, you don't need redux or vuex or another state manager: simply pass the function(s) to the child component!
 
 Nothing else!
 
